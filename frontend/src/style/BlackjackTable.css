@@ -1,0 +1,32 @@
+.blackjack-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #228B22;
+    color: rgb(156, 144, 144);
+    font-family: 'Roboto', sans-serif;
+    padding: 2rem;
+    min-height: 100vh;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin: 1rem 0;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    margin: 1rem 0;
+  }
+  
+  .result-message {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }

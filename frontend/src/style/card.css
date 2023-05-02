@@ -1,0 +1,35 @@
+.card {
+    background-color: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 60px;
+    height: 90px;
+    padding: 4px;
+    margin: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .card.hidden {
+    background-color: #1e90ff;
+    color: #1e90ff;
+  }
+  
+  .card .top,
+  .card .bottom {
+    display: flex;
+    align-items: center; /* Changez flex-direction: column en align-items: center */
+  }
+  
+  .card .suit {
+    font-size: 1.5rem;
+    margin-top: 2px;
+  }
+  
+  .card .value {
+    font-size: 1.3rem;
+    margin-right: 4px; /* Ajoutez une marge à droite pour aligner les numéros et les symboles des couleurs */
+  }
+  
