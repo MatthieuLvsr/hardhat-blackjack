@@ -15,6 +15,8 @@ import { NoWalletDetected } from "./NoWalletDetected";
 import { ConnectWallet } from "./ConnectWallet";
 import { Loading } from "./Loading";
 import { Transfer } from "./Transfer";
+import { Bet } from "./Bet";
+import { Win } from "./Win";
 import { TransactionErrorMessage } from "./TransactionErrorMessage";
 import { WaitingForTransactionMessage } from "./WaitingForTransactionMessage";
 import { NoTokensMessage } from "./NoTokensMessage";
@@ -146,13 +148,25 @@ export class Dapp extends React.Component {
               callback.
             */}
             {this.state.balance.gt(0) && (
-              <Transfer
-                transferTokens={(to, amount) =>
-                  this._transferTokens(to, amount)
+              // <Transfer
+              //   transferTokens={(to, amount) =>
+              //     this._transferTokens(to, amount)
+              //   }
+              //   tokenSymbol={this.state.tokenData.symbol}
+              // />
+              <Bet
+                betTokens={(amount) =>
+                  this._betTokens(amount)
                 }
                 tokenSymbol={this.state.tokenData.symbol}
               />
             )}
+            <Win
+              winTokens={()=>
+                this._winTokens()
+              }
+              tokenSymbol={this.state.tokenData.symbol}
+            />
           </div>
         </div>
       </div>
@@ -359,4 +373,77 @@ export class Dapp extends React.Component {
       this._switchChain();
     }
   }
+
+  async _winTokens() {
+    try {
+      // send the transaction, and save its hash in the Dapp's state. This
+      // way we can indicate that we are waiting for it to be mined.
+      const tx = await this._token.win();
+      this.setState({ txBeingSent: tx.hash });
+  
+      // We use .wait() to wait for the transaction to be mined. This method
+      // returns the transaction's receipt.
+      const receipt = await tx.wait();
+  
+      // The receipt, contains a status flag, which is 0 to indicate an error.
+      if (receipt.status === 0) {
+        // We can't know the exact error that made the transaction fail when it
+        // was mined, so we throw this generic one.
+        throw new Error("Transaction failed");
+      }
+      
+      // update the user's balance.
+      await this._updateBalance();
+    } catch(error) {
+      // We check the error code to see if this error was produced because the
+      // user rejected a tx. If that's the case, we do nothing.
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+  
+      // Other errors are logged and stored in the Dapp's state. 
+      console.error(error);
+      this.setState({ transactionError: error });
+    } finally {
+      // clear the txBeingSent part of the state.
+      this.setState({ txBeingSent: undefined });
+    }
+  }
+
+  async _betTokens(amount) {
+    try {
+      // send the transaction, and save its hash in the Dapp's state. This
+      // way we can indicate that we are waiting for it to be mined.
+      const tx = await this._token.bet(amount);
+      this.setState({ txBeingSent: tx.hash });
+  
+      // We use .wait() to wait for the transaction to be mined. This method
+      // returns the transaction's receipt.
+      const receipt = await tx.wait();
+  
+      // The receipt, contains a status flag, which is 0 to indicate an error.
+      if (receipt.status === 0) {
+        // We can't know the exact error that made the transaction fail when it
+        // was mined, so we throw this generic one.
+        throw new Error("Transaction failed");
+      }
+      
+      // update the user's balance.
+      await this._updateBalance();
+    } catch(error) {
+      // We check the error code to see if this error was produced because the
+      // user rejected a tx. If that's the case, we do nothing.
+      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
+        return;
+      }
+  
+      // Other errors are logged and stored in the Dapp's state. 
+      console.error(error);
+      this.setState({ transactionError: error });
+    } finally {
+      // clear the txBeingSent part of the state.
+      this.setState({ txBeingSent: undefined });
+    }
+  }
+  
 }

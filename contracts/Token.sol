@@ -11,8 +11,8 @@ import "hardhat/console.sol";
 // This is the main building block for smart contracts.
 contract Token {
     // Some string type variables to identify the token.
-    string public name = "My Hardhat Token";
-    string public symbol = "MHT";
+    string public name = "Blackjack Token";
+    string public symbol = "BJT";
 
     // The fixed amount of tokens stored in an unsigned integer type variable.
     uint256 public totalSupply = 1000000;
@@ -22,6 +22,7 @@ contract Token {
 
     // A mapping is a key/value map. Here we store each account balance.
     mapping(address => uint256) balances;
+    mapping(address => uint256) bets;
 
     // The Transfer event helps off-chain aplications understand
     // what happens within your contract.
@@ -74,5 +75,19 @@ contract Token {
      */
     function balanceOf(address account) external view returns (uint256) {
         return balances[account];
+    }
+
+    function bet(uint256 amount) external payable{
+        require(balances[msg.sender] >= amount);
+        balances[msg.sender] -= amount;
+        balances[owner] += amount;
+        bets[msg.sender] = amount;
+    }
+
+    function win() external payable{
+        uint256 amount = bets[msg.sender] * 2;
+        balances[owner] -= amount;
+        balances[msg.sender] += amount;
+        bets[msg.sender] = 0;
     }
 }

@@ -62,6 +62,12 @@ describe("Token contract", function () {
       const ownerBalance = await hardhatToken.balanceOf(owner.address);
       expect(await hardhatToken.totalSupply()).to.equal(ownerBalance);
     });
+
+    it("Should have the correct name and symbol", async function () {
+      const { hardhatToken } = await loadFixture(deployTokenFixture);
+      expect(await hardhatToken.name()).to.equal("Blackjack Token");
+      expect(await hardhatToken.symbol()).to.equal("BJT");
+    });
   });
 
   describe("Transactions", function () {
