@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Hand from './Hands';
 import Card from './Card';
-import Button from './Button';  
+import Button from './Button';  // Importez le composant Bet
 import '../style/BlackjackTable.css';
+import { Bet } from './Bet'; 
+import { Dapp } from './Dapp';
+
 
 
 const CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
@@ -17,6 +20,7 @@ function BlackjackTable() {
   const [splitHand1, setSplitHand1] = useState([]);
   const [splitHand2, setSplitHand2] = useState([]);
   const [dealerCardHidden, setDealerCardHidden] = useState(true);
+  const [betAmount, setBetAmount] = useState(0);
 
   useEffect(() => {
     startGame();
@@ -164,41 +168,45 @@ function BlackjackTable() {
   };
   
   const handleRestart = () => {
-    startGame();
+  //faire en sorte de re parier avant de rejouer
+  
+
   };
 
   return (
     <div className="blackjack-table">
       <h1>Bienvenue au Blackjack !</h1>
-      <h2>Dealer</h2>
-      <Hand hand={dealerHand} hideFirstCard={dealerCardHidden} />
-      <h2>Player</h2>
-      <Hand hand={playerHand} />
-  
-      {splitHand1.length > 0 && splitHand2.length > 0 && (
-        <>
-          <h2>Split Hand 1</h2>
-          <Hand hand={splitHand1} />
-          <h2>Split Hand 2</h2>
-          <Hand hand={splitHand2} />
-        </>
-      )}
-      {!gameOver ? (
-        <>
-          <div className="buttons">
-            <Button onClick={handleDrawCard}>Tirer une carte</Button>
-            {canSplit() && <Button onClick={handleSplit}>Split</Button>}
-            <Button onClick={handleStay}>Rester</Button>
-          </div>
-        </>
-      ) : (
-        <>
-          <p className="result-message">{resultMessage}</p>
-          <Button onClick={handleRestart}>Rejouer</Button>
-        </>
-      )}
+        <><h2>Dealer</h2>
+        <Hand hand={dealerHand} hideFirstCard={dealerCardHidden} />
+        <h2>Player</h2>
+        <Hand hand={playerHand} />
+    
+        {splitHand1.length > 0 && splitHand2.length > 0 && (
+          <>
+            <h2>Split Hand 1</h2>
+            <Hand hand={splitHand1} />
+            <h2>Split Hand 2</h2>
+            <Hand hand={splitHand2} />
+          </>
+        )}
+        {!gameOver ? (
+          <>
+            <div className="buttons">
+              <Button onClick={handleDrawCard}>Tirer une carte</Button>
+              {canSplit() && <Button onClick={handleSplit}>Split</Button>}
+              <Button onClick={handleStay}>Rester</Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="result-message">{resultMessage}</p>
+            <Button onClick={handleRestart}>Rejouer</Button>
+          </>
+        )}</>
+      
     </div>
   );
 }
+
 
 export default BlackjackTable;

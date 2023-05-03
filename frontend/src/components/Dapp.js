@@ -1,4 +1,5 @@
 import React from "react";
+import BlackjackTable from "./BlackjackTable.js";
 
 // We'll use ethers to interact with the Ethereum network and our contract
 import { ethers } from "ethers";
@@ -53,6 +54,7 @@ export class Dapp extends React.Component {
       txBeingSent: undefined,
       transactionError: undefined,
       networkError: undefined,
+      hasBet: false,
     };
 
     this.state = this.initialState;
@@ -147,7 +149,7 @@ export class Dapp extends React.Component {
               The component doesn't have logic, it just calls the transferTokens
               callback.
             */}
-            {this.state.balance.gt(0) && (
+            {/* {this.state.balance.gt(0) && (
               // <Transfer
               //   transferTokens={(to, amount) =>
               //     this._transferTokens(to, amount)
@@ -160,16 +162,24 @@ export class Dapp extends React.Component {
                 }
                 tokenSymbol={this.state.tokenData.symbol}
               />
-            )}
-            <Win
-              winTokens={()=>
-                this._winTokens()
-              }
-              tokenSymbol={this.state.tokenData.symbol}
-            />
+            )} */}
           </div>
         </div>
+
+    <div className="row">
+      <div className="col-12">
+        {this.state.hasBet ? (
+          <BlackjackTable />
+        ) : (
+          <Bet
+            betTokens={(amount) => this._betTokens(amount)}
+            tokenSymbol={this.state.tokenData.symbol}
+          />
+        )}
       </div>
+    </div>
+
+      </div>     
     );
   }
 
@@ -444,6 +454,7 @@ export class Dapp extends React.Component {
       // clear the txBeingSent part of the state.
       this.setState({ txBeingSent: undefined });
     }
+    this.setState({ hasBet: true });
   }
   
 }

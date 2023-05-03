@@ -30,7 +30,7 @@ export function Bet({ betTokens, tokenSymbol }) {
           />
         </div>
         <div className="form-group">
-          <input className="btn btn-primary" type="submit" value="Transfer" />
+          <input className="btn btn-primary" type="submit" value="Bet" />
         </div>
       </form>
     </div>
