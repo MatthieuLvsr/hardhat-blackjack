@@ -173,6 +173,14 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
     } else {
       result = getResult(playerValue, dealerValue);
     }
+
+    if (playerValue > 21) {
+      loseTokens()
+    }else if (dealerValue > 21 || playerValue > dealerValue) {
+      winTokens()
+    }else if (dealerValue === playerValue) {
+      drawTokens()
+    }else loseTokens();
   
     if (result === 'Perdu') {
       setBackgroundColor('red');
