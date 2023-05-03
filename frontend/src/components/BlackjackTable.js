@@ -8,7 +8,6 @@ import { Dapp } from './Dapp';
 import Card from './Card';
 
 
-
 const CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const SUITS = ['♠', '♣', '♦', '♥'];
 
@@ -25,7 +24,7 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
   const [dealerCardHidden, setDealerCardHidden] = useState(true);
   const [hasBet, setHasBet] = useState(true);
   const [newBetPlaced, setNewBetPlaced] = useState(false);
-
+  const [backgroundColor, setBackgroundColor] = useState('green');
 
   useEffect(() => {
     startGame();
@@ -121,6 +120,7 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
     if (handValue > 21) {
       setGameOver(true);
       setResultMessage('Vous avez dépassé 21, vous avez perdu.');
+      setBackgroundColor('red');
     }
   };
   
@@ -173,31 +173,33 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
     } else {
       result = getResult(playerValue, dealerValue);
     }
-    if (playerValue > 21) {
-      loseTokens()
-    }else if (dealerValue > 21 || playerValue > dealerValue) {
-      winTokens()
-    }else if (dealerValue === playerValue) {
-      drawTokens()
-    }else loseTokens();
+  
+    if (result === 'Perdu') {
+      setBackgroundColor('red');
+    } else {
+      setBackgroundColor('green');
+    }
   
     setResultMessage(result);
     setGameOver(true);
   };
   
+  
   const handleRestart = () => {
     if (newBetPlaced) {
       startGame();
       setNewBetPlaced(false);
+      setBackgroundColor('green');
     } else {
       setHasBet(false);
+      setBackgroundColor('green');
     }
   };
   
 
   return (
-    <div className="blackjack-table">
-      <h1>Bienvenue au Blackjack !</h1>
+    <div className="blackjack-table" style={{ backgroundColor }}>
+    <h1>Bienvenue au Blackjack !</h1>
 
         <><h2>Dealer</h2>
         <Hand hand={dealerHand} hideFirstCard={dealerCardHidden} />
