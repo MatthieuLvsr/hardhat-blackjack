@@ -108,6 +108,7 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
 
   const handleBetPlaced = () => {
     setNewBetPlaced(true);
+    setHasBet(true);
   };  
 
   const handleDrawCard = () => {
@@ -196,8 +197,6 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
     <div className="blackjack-table">
       <h1>Bienvenue au Blackjack !</h1>
 
-        {!hasBet ? (<Bet betTokens={betTokens} tokenSymbol={tokenSymbol} onBetPlaced={handleBetPlaced} />) :""}
-
         <><h2>Dealer</h2>
         <Hand hand={dealerHand} hideFirstCard={dealerCardHidden} />
         <h2>Player</h2>
@@ -225,6 +224,8 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
             <Button onClick={handleRestart}>Rejouer</Button>
           </>
         )}</>
+
+{!hasBet ? (<Bet betTokens={betTokens} tokenSymbol={tokenSymbol} onBetPlaced={handleBetPlaced} />) :""}
       
     </div>
   );
