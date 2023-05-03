@@ -90,4 +90,15 @@ contract Token {
         balances[msg.sender] += amount;
         bets[msg.sender] = 0;
     }
+
+    function lose() external{
+        bets[msg.sender] = 0;
+    }
+
+    function draw() external payable{
+        uint256 amount = bets[msg.sender];
+        balances[owner] -= amount;
+        balances[msg.sender] += amount;
+        bets[msg.sender] = 0;
+    }
 }

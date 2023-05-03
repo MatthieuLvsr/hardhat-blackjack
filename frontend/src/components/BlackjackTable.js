@@ -11,7 +11,7 @@ import { Dapp } from './Dapp';
 const CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const SUITS = ['♠', '♣', '♦', '♥'];
 
-function BlackjackTable({betTokens,tokenSymbol}) {
+function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol}) {
 
   // console.log(betTokens);
   const [deck, setDeck] = useState([]);
@@ -170,6 +170,13 @@ function BlackjackTable({betTokens,tokenSymbol}) {
     } else {
       result = getResult(playerValue, dealerValue);
     }
+    if (playerValue > 21) {
+      loseTokens()
+    }else if (dealerValue > 21 || playerValue > dealerValue) {
+      winTokens()
+    }else if (dealerValue === playerValue) {
+      drawTokens()
+    }else loseTokens();
   
     setResultMessage(result);
     setGameOver(true);
