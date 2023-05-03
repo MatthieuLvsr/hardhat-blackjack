@@ -16,7 +16,7 @@ function Card({ card, suit, hide }) {
             <span className="suit">{suit}</span>
           </div>
           <div className="bottom">
-            <span className="suit">{suit}</span>
+            <span className="suit">{suit}</span>&nbsp;
             <span className="value">{card}</span>
           </div>
         </>
