@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Hand from './Hands';
-import Card from './Card';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Button from './Button';  // Importez le composant Bet
 import '../style/BlackjackTable.css';
 import { Bet } from './Bet'; 
 import { Dapp } from './Dapp';
+import Card from './Card';
 
 
 
@@ -201,7 +202,15 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
         <><h2>Dealer</h2>
         <Hand hand={dealerHand} hideFirstCard={dealerCardHidden} />
         <h2>Player</h2>
-        <Hand hand={playerHand} />
+        <div className="player-hand">
+      <TransitionGroup component={null}>
+        {playerHand.map((card, index) => (
+          <CSSTransition key={index} timeout={500} classNames="card-transition">
+            <Card card={card.card} suit={card.suit} />
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
+    </div>
     
         {splitHand1.length > 0 && splitHand2.length > 0 && (
           <>
