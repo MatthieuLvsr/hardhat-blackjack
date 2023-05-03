@@ -11,7 +11,9 @@ import { Dapp } from './Dapp';
 const CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const SUITS = ['♠', '♣', '♦', '♥'];
 
-function BlackjackTable() {
+function BlackjackTable({betTokens,tokenSymbol}) {
+
+  // console.log(betTokens);
   const [deck, setDeck] = useState([]);
   const [playerHand, setPlayerHand] = useState([]);
   const [dealerHand, setDealerHand] = useState([]);
@@ -20,7 +22,7 @@ function BlackjackTable() {
   const [splitHand1, setSplitHand1] = useState([]);
   const [splitHand2, setSplitHand2] = useState([]);
   const [dealerCardHidden, setDealerCardHidden] = useState(true);
-  const [betAmount, setBetAmount] = useState(0);
+  const [hasBet, setHasBet] = useState(true);
 
   useEffect(() => {
     startGame();
@@ -168,7 +170,7 @@ function BlackjackTable() {
   };
   
   const handleRestart = () => {
-  //faire en sorte de re parier avant de rejouer
+    setHasBet(false)
   
 
   };
@@ -176,6 +178,7 @@ function BlackjackTable() {
   return (
     <div className="blackjack-table">
       <h1>Bienvenue au Blackjack !</h1>
+        {!hasBet ? (<Bet betTokens={betTokens} tokenSymbol={tokenSymbol}/>):""}
         <><h2>Dealer</h2>
         <Hand hand={dealerHand} hideFirstCard={dealerCardHidden} />
         <h2>Player</h2>

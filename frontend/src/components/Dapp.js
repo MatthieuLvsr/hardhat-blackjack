@@ -169,7 +169,8 @@ export class Dapp extends React.Component {
     <div className="row">
       <div className="col-12">
         {this.state.hasBet ? (
-          <BlackjackTable />
+          <BlackjackTable betTokens={(amount) => this._betTokens(amount)}
+          tokenSymbol={this.state.tokenData.symbol}/>
         ) : (
           <Bet
             betTokens={(amount) => this._betTokens(amount)}
