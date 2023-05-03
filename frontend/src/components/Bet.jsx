@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Bet({ betTokens, tokenSymbol }) {
+export function Bet({ betTokens, tokenSymbol, onBetPlaced }) {
   return (
     <div>
       <h4>Bet</h4>
@@ -15,6 +15,8 @@ export function Bet({ betTokens, tokenSymbol }) {
 
           if (amount) {
             betTokens(amount);
+            // Call onBetPlaced after the bet has been placed
+            onBetPlaced();
           }
         }}
       >

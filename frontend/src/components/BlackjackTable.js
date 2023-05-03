@@ -23,6 +23,8 @@ function BlackjackTable({betTokens,tokenSymbol}) {
   const [splitHand2, setSplitHand2] = useState([]);
   const [dealerCardHidden, setDealerCardHidden] = useState(true);
   const [hasBet, setHasBet] = useState(true);
+  const [newBetPlaced, setNewBetPlaced] = useState(false);
+
 
   useEffect(() => {
     startGame();
@@ -104,6 +106,10 @@ function BlackjackTable({betTokens,tokenSymbol}) {
     setSplitHand2([]);
   };
 
+  const handleBetPlaced = () => {
+    setNewBetPlaced(true);
+  };  
+
   const handleDrawCard = () => {
     const newPlayerHand = [...playerHand, drawCard(deck)];
     const handValue = getHandValue(newPlayerHand);
@@ -170,15 +176,21 @@ function BlackjackTable({betTokens,tokenSymbol}) {
   };
   
   const handleRestart = () => {
-    setHasBet(false)
-  
-
+    if (newBetPlaced) {
+      startGame();
+      setNewBetPlaced(false);
+    } else {
+      setHasBet(false);
+    }
   };
+  
 
   return (
     <div className="blackjack-table">
       <h1>Bienvenue au Blackjack !</h1>
-        {!hasBet ? (<Bet betTokens={betTokens} tokenSymbol={tokenSymbol}/>):""}
+
+        {!hasBet ? (<Bet betTokens={betTokens} tokenSymbol={tokenSymbol} onBetPlaced={handleBetPlaced} />) :""}
+
         <><h2>Dealer</h2>
         <Hand hand={dealerHand} hideFirstCard={dealerCardHidden} />
         <h2>Player</h2>
