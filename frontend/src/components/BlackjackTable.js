@@ -114,14 +114,15 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
   const handleDrawCard = () => {
     const newPlayerHand = [...playerHand, drawCard(deck)];
     const handValue = getHandValue(newPlayerHand);
-
+  
+    setPlayerHand(newPlayerHand);
+  
     if (handValue > 21) {
       setGameOver(true);
       setResultMessage('Vous avez dépassé 21, vous avez perdu.');
-    } else {
-      setPlayerHand(newPlayerHand);
     }
   };
+  
 
   const handleStay = () => {
     dealerTurn();
