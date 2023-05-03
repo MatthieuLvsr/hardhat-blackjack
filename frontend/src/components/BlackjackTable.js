@@ -138,8 +138,8 @@ function BlackjackTable({betTokens,winTokens,drawTokens,tokenSymbol}) {
       newDealerHand.push(drawCard(deck));
     }
 
-    setDealerHand(newDealerHand);
-    endGame();
+    setDealerHand([...newDealerHand]);
+    endGame(newDealerHand);
   };
 
   const canSplit = () => {
@@ -160,9 +160,11 @@ function BlackjackTable({betTokens,winTokens,drawTokens,tokenSymbol}) {
     setPlayerHand(newSplitHand1);
   };  
 
-  const endGame = () => {
+  const endGame = (newDealerHand) => {
     const playerValue = getHandValue(playerHand);
-    const dealerValue = getHandValue(dealerHand);
+    const dealerValue = getHandValue(newDealerHand);
+    console.log(playerValue);
+    console.log(dealerValue);
     let result = '';
   
     if (splitHand1.length > 0 && splitHand2.length > 0) {
@@ -175,7 +177,7 @@ function BlackjackTable({betTokens,winTokens,drawTokens,tokenSymbol}) {
     }
 
     if (playerValue > 21) {
-      
+
     }else if (dealerValue > 21 || playerValue > dealerValue) {
       winTokens()
     }else if (dealerValue === playerValue) {
