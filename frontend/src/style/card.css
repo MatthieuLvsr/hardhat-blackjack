@@ -27,6 +27,14 @@
     font-size: 1.5rem;
     margin-top: 2px;
   }
+
+  .redSuit{
+    color: red;
+  }
+
+  .blackSuit{
+    color: black;
+  }
   
   .card .value {
     font-size: 1.3rem;

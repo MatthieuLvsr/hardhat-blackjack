@@ -11,7 +11,7 @@ import Card from './Card';
 const CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 const SUITS = ['♠', '♣', '♦', '♥'];
 
-function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol}) {
+function BlackjackTable({betTokens,winTokens,drawTokens,tokenSymbol}) {
 
   // console.log(betTokens);
   const [deck, setDeck] = useState([]);
@@ -175,12 +175,12 @@ function BlackjackTable({betTokens,winTokens,drawTokens,loseTokens,tokenSymbol})
     }
 
     if (playerValue > 21) {
-      loseTokens()
+      
     }else if (dealerValue > 21 || playerValue > dealerValue) {
       winTokens()
     }else if (dealerValue === playerValue) {
       drawTokens()
-    }else loseTokens();
+    }
   
     if (result === 'Perdu') {
       setBackgroundColor('red');

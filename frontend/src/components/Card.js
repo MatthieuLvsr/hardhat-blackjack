@@ -2,8 +2,13 @@ import React from 'react';
 import '../style/card.css';
 
 function Card({ card, suit, hide }) {
+
+  let color
+  if(suit === '♥' || suit === '♦')color = 'redSuit'
+  else color = 'blackSuit'
+
   return (
-    <div className={`card${hide ? ' hidden' : ''}`}>
+    <div className={`${color} card${hide ? ' hidden' : ''}`}>
       {!hide && (
         <>
           <div className="top">

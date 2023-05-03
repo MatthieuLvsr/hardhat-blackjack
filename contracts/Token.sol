@@ -79,6 +79,7 @@ contract Token {
 
     function bet(uint256 amount) external payable{
         require(balances[msg.sender] >= amount);
+        bets[msg.sender] = 0;
         balances[msg.sender] -= amount;
         balances[owner] += amount;
         bets[msg.sender] = amount;
@@ -88,10 +89,6 @@ contract Token {
         uint256 amount = bets[msg.sender] * 2;
         balances[owner] -= amount;
         balances[msg.sender] += amount;
-        bets[msg.sender] = 0;
-    }
-
-    function lose() external{
         bets[msg.sender] = 0;
     }
 

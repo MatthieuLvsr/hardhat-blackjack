@@ -172,7 +172,6 @@ export class Dapp extends React.Component {
           <BlackjackTable 
           betTokens={(amount) => this._betTokens(amount)}
           tokenSymbol={this.state.tokenData.symbol}
-          loseTokens={() => this._loseTokens()}
           drawTokens={() => this._drawTokens()}
           winTokens={() => this._winTokens()}/>
         ) : (
@@ -467,43 +466,6 @@ export class Dapp extends React.Component {
       // send the transaction, and save its hash in the Dapp's state. This
       // way we can indicate that we are waiting for it to be mined.
       const tx = await this._token.draw();
-      this.setState({ txBeingSent: tx.hash });
-  
-      // We use .wait() to wait for the transaction to be mined. This method
-      // returns the transaction's receipt.
-      const receipt = await tx.wait();
-  
-      // The receipt, contains a status flag, which is 0 to indicate an error.
-      if (receipt.status === 0) {
-        // We can't know the exact error that made the transaction fail when it
-        // was mined, so we throw this generic one.
-        throw new Error("Transaction failed");
-      }
-      
-      // update the user's balance.
-      await this._updateBalance();
-    } catch(error) {
-      // We check the error code to see if this error was produced because the
-      // user rejected a tx. If that's the case, we do nothing.
-      if (error.code === ERROR_CODE_TX_REJECTED_BY_USER) {
-        return;
-      }
-  
-      // Other errors are logged and stored in the Dapp's state. 
-      console.error(error);
-      this.setState({ transactionError: error });
-    } finally {
-      // clear the txBeingSent part of the state.
-      this.setState({ txBeingSent: undefined });
-    }
-  }
-  
-
-  async _loseTokens() {
-    try {
-      // send the transaction, and save its hash in the Dapp's state. This
-      // way we can indicate that we are waiting for it to be mined.
-      const tx = await this._token.lose();
       this.setState({ txBeingSent: tx.hash });
   
       // We use .wait() to wait for the transaction to be mined. This method
