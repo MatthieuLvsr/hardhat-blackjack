@@ -13,8 +13,11 @@
   }
   
   .card.hidden {
-    background-color: #1e90ff;
-    color: #1e90ff;
+    /* background-color: #1e90ff; */
+    background-image: url('../../public/images/backcard.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ffffff00;
   }
   
   .card .top,
